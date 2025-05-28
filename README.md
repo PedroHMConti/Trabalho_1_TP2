@@ -1,3 +1,6 @@
-# Trabalho_1_TP2
-Estilo Hollywood,implementar KWIC
-Atualmente está implementado o Word Count,mas a partir dele será feito o KWIC
+Informações para rodar o projeto:
+USE JDK 21!
+Mude os paths das classes : 
+        EscreveInputFile
+        StopWordFilter
+        Main(metodo run)
