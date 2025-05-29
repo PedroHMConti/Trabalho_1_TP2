@@ -11,8 +11,9 @@ public class DataStorage {
     List<String> linhas = new ArrayList<>();
     StopWordFilter stopWordFilter;
     List<Consumer<String>> wordEventsHandlers = new ArrayList<>();
+    int windowSize;
 
-    public DataStorage(WordFrequencyFramework wfapp, StopWordFilter stopWordFilter) {
+    public DataStorage(WordFrequencyFramework wfapp, StopWordFilter stopWordFilter, int windowSize) {
         this.stopWordFilter = stopWordFilter;
         wfapp.registerForLoadEvent(this::load);
         wfapp.registerForDoworkEvent(this::produceKWICContext);
@@ -43,6 +44,13 @@ public class DataStorage {
 
                     // Rotacionar para colocar a palavra-chave na posição 0
                     Collections.rotate(rotacionada, -i);
+
+                    try {
+                        rotacionada = rotacionada.subList(0, windowSize + 1);
+                    } catch (IndexOutOfBoundsException e) {
+//                      System.out.println("Janela maior do que o contexto, janela limitada para o tamanho do contexto");
+                        rotacionada = rotacionada.subList(0, rotacionada.size());
+                    }
 
                     // Construir a string da frase rotacionada
                     String fraseRotacionada = String.join(" ", rotacionada);

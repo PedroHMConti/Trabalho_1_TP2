@@ -11,7 +11,7 @@ public class StopWordFilter {
     }
     public void load(String pathToFile) {
         try {
-            BufferedReader br =new BufferedReader(new FileReader(new File("C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\projetos_java\\Projeto_TP2\\src\\main\\java\\Files\\stopWords.txt")));
+            BufferedReader br =new BufferedReader(new FileReader(new File("/home/marcos/Documents/arquivosTP2/stopWords.txt")));
             String linha;
             while((linha = br.readLine()) != null){
                 stopWords.addAll(Arrays.stream(linha.split(",")).toList());
