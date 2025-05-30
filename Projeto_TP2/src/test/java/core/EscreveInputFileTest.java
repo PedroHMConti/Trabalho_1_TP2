@@ -1,6 +1,5 @@
+package core;
 import org.junit.jupiter.api.Test;
-
-import core.EscreveInputFile;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
