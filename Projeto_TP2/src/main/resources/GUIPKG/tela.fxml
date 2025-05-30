@@ -1,22 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21.0.7" fx:controller="GUIPKG.KWICController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-    <Pane prefHeight="600.0" prefWidth="900.0">
-        <children>
-            <Button fx:id="loadFileButton" layoutX="35.0" layoutY="529.0" mnemonicParsing="false" onAction="#onLoadFileButtonClick" text="Carregar" />
-            <TextField fx:id="filePathField" layoutX="151.0" layoutY="527.0" prefHeight="25.0" prefWidth="301.0" />
-            <Label fx:id="textFile" layoutX="42.0" layoutY="489.0" text="Arquivo Selecionado: " />
-            <TextArea fx:id="inputTextArea" layoutX="30.0" layoutY="60.0" prefHeight="323.0" prefWidth="335.0" />
-        </children>
-    </Pane>
-</VBox>
+<?import javafx.geometry.Pos?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21.0.7"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="GUIPKG.KWICController"
+            prefWidth="940.0" prefHeight="600.0">
+
+    <center>
+        <HBox spacing="30" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- Esquerda -->
+            <VBox spacing="20" alignment="TOP_LEFT">
+                <!-- Input File -->
+                <Label text="Arquivo de Input:" />
+                <HBox spacing="10">
+                    <Button fx:id="loadFileButton" text="Carregar Input" onAction="#onLoadFileButtonClick" />
+                    <TextField fx:id="filePathField" promptText="Caminho do arquivo input" prefWidth="250"/>
+                </HBox>
+            
+                <!-- StopWords File -->
+                <Label text="Arquivo de Stop Words:" />
+                <HBox spacing="10">
+                    <Button fx:id="loadStopWordsButton" text="Carregar StopWords" onAction="#onLoadStopWordsClick"/>
+                    <TextField fx:id="stopWordsPathField" promptText="Caminho do arquivo stopwords" prefWidth="250"/>
+                </HBox>
+            
+                <!-- Input Preview -->
+                <Label text="Texto de Entrada:" />
+                <TextArea fx:id="inputTextArea" prefWidth="350" prefHeight="150"/>
+            
+                <!-- Stop Words Preview -->
+                <Label text="Stop Words:" />
+                <TextArea fx:id="stopWordsTextArea" prefWidth="350" prefHeight="130" editable="false"/>
+            </VBox>
+
+
+            <!-- Direita -->
+            <VBox spacing="10" alignment="TOP_LEFT">
+                <Label text="Saída:" />
+                <TextArea fx:id="outputTextArea" prefWidth="450" prefHeight="500" editable="false"/>
+            </VBox>
+        </HBox>
+    </center>
+
+</BorderPane>

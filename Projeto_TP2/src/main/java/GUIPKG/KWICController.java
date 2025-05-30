@@ -1,6 +1,7 @@
 package GUIPKG;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -45,10 +46,22 @@ public class KWICController {
     private TextArea inputTextArea;
 
     @FXML
+    private TextArea stopWordsTextArea;
+
+    @FXML
     private Label textFile;
 
     @FXML
     private TextField filePathField;
+
+    @FXML
+    private Button loadStopWordsButton;
+
+    @FXML
+    private TextField stopWordsPathField;
+
+    @FXML
+    private TextArea outputTextArea;
 
     @FXML
     protected void onLoadFileButtonClick() {
@@ -57,5 +70,12 @@ public class KWICController {
         setFields(file);
         KWICApplication.textPath = path;
     }
+
+    @FXML
+    protected void onLoadStopWordsClick() {
+        System.out.println("Carregando palavras de parada...");
+    }
+
+    
 
 }
