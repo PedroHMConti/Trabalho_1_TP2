@@ -17,7 +17,7 @@ class EscreveInputFileTest {
         };
 
         // Escreve a linha de teste no arquivo
-        String testLine = "The quick brown fox jumps over the lazy dog 1234567890";
+        String testLine = "the quick brown fox jumps over the lazy dog 1234567890 THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
         escreveInputFile.escreveNoArquivoInput(testLine);
 
         // Verifica se a escrita foi feita corretamente

@@ -10,10 +10,13 @@ import java.io.FileReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class KeyWordContextGeneratorTest {
+class TesteIntegracao {
+
+    // Teste de integração para verificar o fluxo completo do framework
+    // Utiliza as classes WordFrequencyFramework, StopWordFilter, DataStorage e KeyWordContextGenerator
 
     @Test
-    void testKWICGenerationInstrucao() throws Exception {
+    void testeIntegracaoInstrucao() throws Exception {
         // Configurar o WordFrequencyFramework
         WordFrequencyFramework wfapp = new WordFrequencyFramework();
 
@@ -34,7 +37,7 @@ class KeyWordContextGeneratorTest {
         };
 
         // Configurar o DataStorage
-        DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter);
+        DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter,3);
 
         // Configurar o KeyWordContextGenerator
         KeyWordContextGenerator keyWordContextGenerator = new KeyWordContextGenerator(wfapp, dataStorage);
