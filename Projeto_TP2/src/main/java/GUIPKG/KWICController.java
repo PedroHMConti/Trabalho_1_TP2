@@ -113,7 +113,7 @@ public class KWICController {
         try {
             WordFrequencyFramework wfapp = new WordFrequencyFramework();
             StopWordFilter stopWordFilter = new StopWordFilter(wfapp, stopPath);
-            DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter);
+            DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter, 1000);
             KeyWordContextGenerator kwic = new KeyWordContextGenerator(
                     wfapp,
                     dataStorage,
