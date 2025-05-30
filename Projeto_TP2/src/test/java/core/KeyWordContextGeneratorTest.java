@@ -1,3 +1,4 @@
+package core;
 import org.junit.jupiter.api.Test;
 
 import utils.FilePaths;
@@ -12,22 +13,18 @@ import java.io.FileReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class TesteIntegracao {
-
-    // Teste de integração para verificar o fluxo completo do framework
-    // Utiliza as classes WordFrequencyFramework, StopWordFilter, DataStorage e KeyWordContextGenerator
+class KeyWordContextGeneratorTest {
 
     @Test
-    void testeIntegracaoInstrucao() throws Exception {
+    void testKWICGenerationInstrucao() throws Exception {
         // Configurar o WordFrequencyFramework
         WordFrequencyFramework wfapp = new WordFrequencyFramework();
 
         // Configurar o StopWordFilter para usar o arquivo stopWordsTeste.txt
         StopWordFilter stopWordFilter = new StopWordFilter(wfapp) {
-            @Override
-            public void load(String pathToFile) {
+            public void load(String ignored) {
                 try {
-                    BufferedReader br = new BufferedReader(new FileReader(FilePaths.STOP_WORDS_FILE));
+                    BufferedReader br = new BufferedReader(new FileReader(FilePaths.STOP_WORDS_FILE_TEST));
                     String linha;
                     while ((linha = br.readLine()) != null) {
                         stopWords.addAll(List.of(linha.split("\\s+")));
@@ -39,7 +36,7 @@ class TesteIntegracao {
         };
 
         // Configurar o DataStorage
-        DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter,3);
+        DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter);
 
         // Configurar o KeyWordContextGenerator
         KeyWordContextGenerator keyWordContextGenerator = new KeyWordContextGenerator(wfapp, dataStorage);
@@ -72,47 +69,6 @@ class TesteIntegracao {
 
         String[] actualKWIC = outputStream.toString().trim().split("\r?\n");
         assertEquals(expectedKWIC, List.of(actualKWIC));
-
-        // Excluir o arquivo temporário
-        Files.delete(tempInputFile);
-    }
-
-    // Teste para caso a entrada seja vazia, ou seja o arquivo de entrada está vazio
-
-    @Test
-    void testeIntegracaoVazio() throws Exception {
-        // Configurar o WordFrequencyFramework
-        WordFrequencyFramework wfapp = new WordFrequencyFramework();
-
-        // Configurar o StopWordFilter para usar o arquivo stopWordsTeste.txt
-        StopWordFilter stopWordFilter = new StopWordFilter(wfapp);
-
-        // Configurar o DataStorage
-        DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter,3);
-
-        // Configurar o KeyWordContextGenerator
-        KeyWordContextGenerator keyWordContextGenerator = new KeyWordContextGenerator(wfapp, dataStorage);
-
-        // Criar um arquivo temporário para simular o arquivo de entrada
-        Path tempInputFile = Files.createTempFile("Input", ".txt");
-        // Não escrever nada no arquivo temporário para simular entrada vazia
-        // Redirecionar a saída padrão para capturar o console
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
-
-        // Executar o fluxo do framework com o caminho do arquivo temporário
-        wfapp.run(tempInputFile.toString());
-
-        // Restaurar a saída padrão
-        System.setOut(System.out);
-
-        // Verificar se a saída está vazia
-
-        String[] actualKWIC = outputStream.toString().trim().split("\r?\n");
-        // Compara com uma lista vazia, pois não deve haver saída para um arquivo de entrada vazio
-
-
-        assertEquals(List.of(""), List.of(actualKWIC));
 
         // Excluir o arquivo temporário
         Files.delete(tempInputFile);

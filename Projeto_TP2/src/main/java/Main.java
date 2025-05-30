@@ -1,6 +1,10 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import utils.FilePaths;
+
+import java.nio.file.Paths;
+
 public class Main{
     public static void main(String[] args) {
         //input do programa
@@ -37,6 +41,6 @@ public class Main{
         StopWordFilter stopWordFilter = new StopWordFilter(wfapp);
         DataStorage dataStorage = new DataStorage(wfapp,stopWordFilter, windowSize);
         KeyWordContextGenerator keyWordContextGenerator  = new KeyWordContextGenerator(wfapp,dataStorage);
-        wfapp.run("/home/marcos/Documents/arquivosTP2/inputFile.txt");
+        wfapp.run(FilePaths.INPUT_FILE);
     }
 }

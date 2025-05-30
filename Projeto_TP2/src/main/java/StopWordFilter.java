@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+import utils.FilePaths;
+
 public class StopWordFilter {
     List<String> stopWords = new ArrayList<>();
     StopWordFilter(WordFrequencyFramework wfapp){
@@ -11,7 +13,7 @@ public class StopWordFilter {
     }
     public void load(String pathToFile) {
         try {
-            BufferedReader br =new BufferedReader(new FileReader(new File("/home/marcos/Documents/arquivosTP2/stopWords.txt")));
+            BufferedReader br =new BufferedReader(new FileReader(new File(FilePaths.INPUT_FILE)));
             String linha;
             while((linha = br.readLine()) != null){
                 stopWords.addAll(Arrays.stream(linha.split(",")).toList());
