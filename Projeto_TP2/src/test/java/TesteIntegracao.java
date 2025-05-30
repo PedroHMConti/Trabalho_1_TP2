@@ -22,20 +22,7 @@ class TesteIntegracao {
         WordFrequencyFramework wfapp = new WordFrequencyFramework();
 
         // Configurar o StopWordFilter para usar o arquivo stopWordsTeste.txt
-        StopWordFilter stopWordFilter = new StopWordFilter(wfapp) {
-            @Override
-            public void load(String pathToFile) {
-                try {
-                    BufferedReader br = new BufferedReader(new FileReader(FilePaths.STOP_WORDS_FILE));
-                    String linha;
-                    while ((linha = br.readLine()) != null) {
-                        stopWords.addAll(List.of(linha.split("\\s+")));
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        };
+        StopWordFilter stopWordFilter = new StopWordFilter(wfapp, "src/test/java/stopWordsTeste.txt");
 
         // Configurar o DataStorage
         DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter,3);

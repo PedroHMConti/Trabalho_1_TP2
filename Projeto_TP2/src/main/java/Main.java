@@ -1,8 +1,6 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import utils.FilePaths;
-
 import java.nio.file.Paths;
 
 public class Main{

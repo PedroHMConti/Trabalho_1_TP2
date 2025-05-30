@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class StopWordFilter {
-    private final List<String> stopWords = new ArrayList<>();
+    public final List<String> stopWords = new ArrayList<>();
     private final String pathToUse;
 
     public StopWordFilter(WordFrequencyFramework wfapp) {
