@@ -39,6 +39,9 @@
                 <!-- Stop Words Preview -->
                 <Label text="Stop Words:" />
                 <TextArea fx:id="stopWordsTextArea" prefWidth="350" prefHeight="130" editable="false"/>
+                
+                <!-- Botão de Iniciar -->
+                <Button fx:id="runButton" text="Iniciar" onAction="#onRunButtonClick" prefWidth="120"/>
             </VBox>
 
 

@@ -1,6 +1,11 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import core.DataStorage;
+import core.EscreveInputFile;
+import core.KeyWordContextGenerator;
+import core.StopWordFilter;
+import core.WordFrequencyFramework;
 import utils.FilePaths;
 
 import java.nio.file.Paths;

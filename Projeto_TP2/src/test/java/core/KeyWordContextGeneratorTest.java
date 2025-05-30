@@ -1,6 +1,10 @@
 package core;
 import org.junit.jupiter.api.Test;
 
+import core.DataStorage;
+import core.KeyWordContextGenerator;
+import core.StopWordFilter;
+import core.WordFrequencyFramework;
 import utils.FilePaths;
 
 import java.io.ByteArrayOutputStream;

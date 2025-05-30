@@ -6,37 +6,40 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import utils.FilePaths;
+
+import core.WordFrequencyFramework;
+import core.StopWordFilter;
+import core.DataStorage;
+import core.KeyWordContextGenerator;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.util.Scanner;
 
 public class KWICController {
+
     public static String getPath() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecionar Arquivo:");
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Arquivos de texto (*.txt", "*.txt");
-        fileChooser.getExtensionFilters().add(extensionFilter); // Limita a arquivos de texto
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Arquivos de texto (*.txt)",
+                "*.txt");
+        fileChooser.getExtensionFilters().add(extensionFilter);
 
-        File selectedFile = fileChooser.showOpenDialog(null); // Abre a janela de escolher arquivo
-        String absolutePath = "";
-        if (selectedFile != null) {
-            absolutePath = selectedFile.getAbsolutePath();
-        }
-        return absolutePath;
+        File selectedFile = fileChooser.showOpenDialog(null);
+        return (selectedFile != null) ? selectedFile.getAbsolutePath() : "";
     }
 
     public void setFields(File selectedFile) {
         if (selectedFile != null) {
-            textFile.setText("Arquivo selecionado: " + selectedFile.getName());
             filePathField.setText(selectedFile.getAbsolutePath());
             try {
                 String conteudo = new String(java.nio.file.Files.readAllBytes(selectedFile.toPath()));
-                inputTextArea.setText(conteudo); // Coloca o texto na caixa
+                inputTextArea.setText(conteudo);
             } catch (Exception e) {
-                textFile.setText("Erro ao ler o arquivo: " + e.getMessage());
-                inputTextArea.clear();
+                inputTextArea.setText("Erro ao ler o arquivo: " + e.getMessage());
             }
         } else {
-            textFile.setText("Nenhum arquivo selecionado");
             filePathField.clear();
             inputTextArea.clear();
         }
@@ -66,16 +69,61 @@ public class KWICController {
     @FXML
     protected void onLoadFileButtonClick() {
         String path = getPath();
-        File file = new File(path);
-        setFields(file);
-        KWICApplication.textPath = path;
+        if (!path.isEmpty()) {
+            File file = new File(path);
+            setFields(file);
+            KWICApplication.textPath = path;
+        }
     }
 
     @FXML
     protected void onLoadStopWordsClick() {
-        System.out.println("Carregando palavras de parada...");
+        String path = getPath();
+        if (!path.isEmpty()) {
+            File file = new File(path);
+            stopWordsPathField.setText(path);
+            KWICApplication.stopWordPath = path;
+
+            try {
+                String conteudo = new String(Files.readAllBytes(file.toPath()));
+                stopWordsTextArea.setText(conteudo);
+            } catch (Exception e) {
+                stopWordsTextArea.setText("Erro ao ler stop words: " + e.getMessage());
+            }
+        } else {
+            stopWordsPathField.clear();
+            stopWordsTextArea.clear();
+        }
     }
 
-    
+    @FXML
+    protected void onRunButtonClick() {
+        String inputPath = KWICApplication.textPath;
+        String stopPath = KWICApplication.stopWordPath;
 
+        if (inputPath == null || inputPath.isEmpty()) {
+            outputTextArea.setText("Erro: Nenhum arquivo de input carregado.");
+            return;
+        }
+        if (stopPath == null || stopPath.isEmpty()) {
+            outputTextArea.setText("Erro: Nenhum arquivo de stop words carregado.");
+            return;
+        }
+
+        try {
+            WordFrequencyFramework wfapp = new WordFrequencyFramework();
+            StopWordFilter stopWordFilter = new StopWordFilter(wfapp, stopPath);
+            DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter);
+            KeyWordContextGenerator kwic = new KeyWordContextGenerator(
+                    wfapp,
+                    dataStorage,
+                    lines -> outputTextArea.setText(String.join("\n", lines)));
+                    
+            wfapp.run(inputPath);
+
+        } catch (Exception e) {
+            outputTextArea.setText("Erro ao executar o algoritmo:\n" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

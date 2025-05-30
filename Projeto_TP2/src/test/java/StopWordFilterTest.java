@@ -1,4 +1,8 @@
 import org.junit.jupiter.api.Test;
+
+import core.StopWordFilter;
+import core.WordFrequencyFramework;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 class StopWordFilterTest {
