@@ -67,6 +67,9 @@ public class KWICController {
     private TextArea outputTextArea;
 
     @FXML
+    private TextField contextWindowField;
+
+    @FXML
     protected void onLoadFileButtonClick() {
         String path = getPath();
         if (!path.isEmpty()) {
@@ -110,10 +113,22 @@ public class KWICController {
             return;
         }
 
+        int contextSize = 0;
+
+        try {
+            contextSize = Integer.parseInt(contextWindowField.getText());
+            if (contextSize < 0) {
+                throw new NumberFormatException("Valor negativo");
+            }
+        } catch (NumberFormatException e) {
+            outputTextArea.setText("Por favor, insira um número válido (>= 0) para o tamanho da janela de contexto.");
+            return;
+        }
+
         try {
             WordFrequencyFramework wfapp = new WordFrequencyFramework();
             StopWordFilter stopWordFilter = new StopWordFilter(wfapp, stopPath);
-            DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter, 1000);
+            DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter, contextSize);
             KeyWordContextGenerator kwic = new KeyWordContextGenerator(
                     wfapp,
                     dataStorage,
