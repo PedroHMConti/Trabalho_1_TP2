@@ -74,4 +74,45 @@ class TesteIntegracao {
         // Excluir o arquivo temporário
         Files.delete(tempInputFile);
     }
+
+    // Teste para caso a entrada seja vazia, ou seja o arquivo de entrada está vazio
+
+    @Test
+    void testeIntegracaoVazio() throws Exception {
+        // Configurar o WordFrequencyFramework
+        WordFrequencyFramework wfapp = new WordFrequencyFramework();
+
+        // Configurar o StopWordFilter para usar o arquivo stopWordsTeste.txt
+        StopWordFilter stopWordFilter = new StopWordFilter(wfapp);
+
+        // Configurar o DataStorage
+        DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter,3);
+
+        // Configurar o KeyWordContextGenerator
+        KeyWordContextGenerator keyWordContextGenerator = new KeyWordContextGenerator(wfapp, dataStorage);
+
+        // Criar um arquivo temporário para simular o arquivo de entrada
+        Path tempInputFile = Files.createTempFile("Input", ".txt");
+        // Não escrever nada no arquivo temporário para simular entrada vazia
+        // Redirecionar a saída padrão para capturar o console
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        // Executar o fluxo do framework com o caminho do arquivo temporário
+        wfapp.run(tempInputFile.toString());
+
+        // Restaurar a saída padrão
+        System.setOut(System.out);
+
+        // Verificar se a saída está vazia
+
+        String[] actualKWIC = outputStream.toString().trim().split("\r?\n");
+        // Compara com uma lista vazia, pois não deve haver saída para um arquivo de entrada vazio
+
+
+        assertEquals(List.of(""), List.of(actualKWIC));
+
+        // Excluir o arquivo temporário
+        Files.delete(tempInputFile);
+    }
 }
