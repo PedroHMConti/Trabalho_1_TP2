@@ -1,7 +1,8 @@
+
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
-
 class StopWordFilterTest {
     @Test
     void testIsStopWordInstrucao() {
@@ -15,6 +16,7 @@ class StopWordFilterTest {
         assertTrue(stopWordFilter.isStopWord("the"));
         assertTrue(stopWordFilter.isStopWord("and"));
         assertFalse(stopWordFilter.isStopWord("cat"));
+        assertFalse(stopWordFilter.isStopWord("THE")); // Testa case insensitivity
     }
 
     @Test
@@ -31,4 +33,5 @@ class StopWordFilterTest {
         assertFalse(stopWordFilter.isStopWord("and"));
         assertFalse(stopWordFilter.isStopWord("cat"));
     }
+
 }

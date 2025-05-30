@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21.0.7"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="KWICController"
+            prefWidth="940.0" prefHeight="600.0">
+
+    <center>
+        <HBox spacing="30" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- Esquerda -->
+            <VBox spacing="20" alignment="TOP_LEFT">
+                <!-- Input File -->
+                <Label text="Arquivo de Input:" />
+                <HBox spacing="10">
+                    <Button fx:id="loadFileButton" text="Carregar Input" onAction="#onLoadFileButtonClick" />
+                    <TextField fx:id="filePathField" promptText="Caminho do arquivo input" prefWidth="250"/>
+                </HBox>
+            
+                <!-- StopWords File -->
+                <Label text="Arquivo de Stop Words:" />
+                <HBox spacing="10">
+                    <Button fx:id="loadStopWordsButton" text="Carregar StopWords" onAction="#onLoadStopWordsClick"/>
+                    <TextField fx:id="stopWordsPathField" promptText="Caminho do arquivo stopwords" prefWidth="250"/>
+                </HBox>
+
+                <!-- Tamanho da Janela de Contexto -->
+                <Label text="Tamanho da Janela de Contexto:" />
+                <TextField fx:id="contextWindowField" text="100" promptText="Ex: 1, 2, 3..." prefWidth="250"/>
+            
+                <!-- Input Preview -->
+                <Label text="Texto de Entrada:" />
+                <TextArea fx:id="inputTextArea" prefWidth="350" prefHeight="150"/>
+            
+                <!-- Stop Words Preview -->
+                <Label text="Stop Words:" />
+                <TextArea fx:id="stopWordsTextArea" prefWidth="350" prefHeight="130" editable="false"/>
+                
+                <!-- Botão de Iniciar -->
+                <Button fx:id="runButton" text="Iniciar" onAction="#onRunButtonClick" prefWidth="120"/>
+            </VBox>
+
+
+            <!-- Direita -->
+            <VBox spacing="10" alignment="TOP_LEFT">
+                <Label text="Saída:" />
+                <TextArea fx:id="outputTextArea" prefWidth="450" prefHeight="500" editable="false"/>
+            </VBox>
+        </HBox>
+    </center>
+
+</BorderPane>

@@ -1,26 +1,37 @@
+
+
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class StopWordFilter {
-    List<String> stopWords = new ArrayList<>();
-    StopWordFilter(WordFrequencyFramework wfapp){
+    public final List<String> stopWords = new ArrayList<>();
+    private final String pathToUse;
+
+    public StopWordFilter(WordFrequencyFramework wfapp) {
+        this(wfapp, null);
+    }
+
+    public StopWordFilter(WordFrequencyFramework wfapp, String customPath) {
+        this.pathToUse = (customPath != null && !customPath.isEmpty())
+                ? customPath
+                : FilePaths.STOP_WORDS_FILE;
+
         wfapp.registerForLoadEvent((Consumer<String>) this::load);
     }
-    public void load(String pathToFile) {
-        try {
-            BufferedReader br =new BufferedReader(new FileReader(new File("C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\projetos_java\\Projeto_TP2\\src\\main\\java\\Files\\stopWords.txt")));
+
+    private void load(String ignored) {
+        try (BufferedReader br = new BufferedReader(new FileReader(this.pathToUse))) {
             String linha;
-            while((linha = br.readLine()) != null){
-                stopWords.addAll(Arrays.stream(linha.split(",")).toList());
+            while ((linha = br.readLine()) != null) {
+                stopWords.addAll(Arrays.asList(linha.split(",")));
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao carregar stop words de: " + this.pathToUse, e);
         }
     }
-    public boolean isStopWord(String word){
+
+    public boolean isStopWord(String word) {
         return stopWords.contains(word);
     }
 }

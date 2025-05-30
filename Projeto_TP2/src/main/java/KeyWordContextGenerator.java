@@ -1,14 +1,21 @@
+
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class KeyWordContextGenerator {
     private final List<String> kwicLines = new ArrayList<>();
+    private final Consumer<List<String>> outputConsumer;
 
     public KeyWordContextGenerator(WordFrequencyFramework wfapp, DataStorage dataStorage) {
-        // Registrar para receber as linhas rotacionadas com contexto
+        this(wfapp, dataStorage, null); // passa null para outputConsumer
+    }
+
+    public KeyWordContextGenerator(WordFrequencyFramework wfapp, DataStorage dataStorage, Consumer<List<String>> outputConsumer) {
+        this.outputConsumer = outputConsumer;
         dataStorage.registerForWordEvent(this::storeLine);
-        // Registrar para evento de fim, para imprimir a lista ordenada
         wfapp.registerForEndEvent(this::printKWIC);
     }
 
@@ -17,12 +24,14 @@ public class KeyWordContextGenerator {
     }
 
     private void printKWIC() {
-        // Ordena alfabeticamente a lista de linhas rotacionadas
         Collections.sort(kwicLines);
 
-        // Imprime cada linha
-        for (String line : kwicLines) {
-            System.out.println(line);
+        if (outputConsumer != null) {
+            outputConsumer.accept(kwicLines);
+        } else {
+            for (String line : kwicLines) {
+                System.out.println(line);
+            }
         }
     }
 }
