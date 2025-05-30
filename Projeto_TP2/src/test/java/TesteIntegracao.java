@@ -1,7 +1,5 @@
-package core;
-import org.junit.jupiter.api.Test;
 
-import utils.FilePaths;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

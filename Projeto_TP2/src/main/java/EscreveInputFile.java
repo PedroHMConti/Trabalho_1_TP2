@@ -1,11 +1,9 @@
-package core;
+
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import utils.FilePaths;
 
 public class EscreveInputFile {
     File file = new File(FilePaths.INPUT_FILE);

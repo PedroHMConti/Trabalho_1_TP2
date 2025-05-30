@@ -1,17 +1,9 @@
-package GUIPKG;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import utils.FilePaths;
-
-import core.WordFrequencyFramework;
-import core.StopWordFilter;
-import core.DataStorage;
-import core.KeyWordContextGenerator;
 
 import java.io.File;
 import java.nio.file.Files;

@@ -1,10 +1,8 @@
-package core;
+
 
 import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
-
-import utils.FilePaths;
 
 public class StopWordFilter {
     private final List<String> stopWords = new ArrayList<>();
