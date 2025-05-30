@@ -6,8 +6,6 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.io.BufferedReader;
-import java.io.FileReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

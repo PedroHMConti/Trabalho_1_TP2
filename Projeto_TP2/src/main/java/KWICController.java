@@ -7,7 +7,6 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.Scanner;
 
 public class KWICController {
 
@@ -92,6 +91,29 @@ public class KWICController {
     }
 
     @FXML
+    public void initialize() {
+        try {
+            File defaultInput = new File(FilePaths.INPUT_FILE);
+            if (defaultInput.exists()) {
+                setFields(defaultInput);
+                KWICApplication.textPath = defaultInput.getAbsolutePath();
+            }
+
+            File defaultStopWords = new File(FilePaths.STOP_WORDS_FILE);
+            if (defaultStopWords.exists()) {
+                stopWordsPathField.setText(defaultStopWords.getAbsolutePath());
+                KWICApplication.stopWordPath = defaultStopWords.getAbsolutePath();
+
+                String conteudo = new String(Files.readAllBytes(defaultStopWords.toPath()));
+                stopWordsTextArea.setText(conteudo);
+            }
+
+        } catch (Exception e) {
+            inputTextArea.setText("Erro ao carregar arquivos padrão: " + e.getMessage());
+        }
+    }
+
+    @FXML
     protected void onRunButtonClick() {
         String inputPath = KWICApplication.textPath;
         String stopPath = KWICApplication.stopWordPath;
@@ -125,7 +147,7 @@ public class KWICController {
                     wfapp,
                     dataStorage,
                     lines -> outputTextArea.setText(String.join("\n", lines)));
-                    
+
             wfapp.run(inputPath);
 
         } catch (Exception e) {
