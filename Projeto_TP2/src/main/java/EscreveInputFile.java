@@ -4,13 +4,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class EscreveInputFile {
-    File file = new File(FilePaths.INPUT_FILE);
-    public void escreveNoArquivoInput(String frase){
-        try (FileWriter fw = new FileWriter(file,true)) {
-            BufferedWriter bw = new BufferedWriter(fw);
+    File file;
+
+    public EscreveInputFile() {
+        this.file = new File(FilePaths.INPUT_FILE);
+    }
+
+    public EscreveInputFile(File customFile) {
+        this.file = customFile;
+    }
+
+    public void escreveNoArquivoInput(String frase) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
             bw.write(frase);
             bw.newLine();
-            bw.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,26 +1,2 @@
 the brown cat
 cat said i am in love with you
-teste
-contexto 1
-linha de teste
-teste
-contexto 1
-linha de teste
-test line
-test
-context 1
-test line
-test
-context 1
-test line
-test
-context 1
-test line
-test
-context 1
-test line
-test
-context 1
-test line
-test
-context 1

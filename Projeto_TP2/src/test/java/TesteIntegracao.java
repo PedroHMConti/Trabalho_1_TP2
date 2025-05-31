@@ -23,7 +23,7 @@ class TesteIntegracao {
         StopWordFilter stopWordFilter = new StopWordFilter(wfapp, "src/test/java/stopWordsTeste.txt");
 
         // Configurar o DataStorage
-        DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter,3);
+        DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter, 3);
 
         // Configurar o KeyWordContextGenerator
         KeyWordContextGenerator keyWordContextGenerator = new KeyWordContextGenerator(wfapp, dataStorage);
@@ -72,7 +72,7 @@ class TesteIntegracao {
         StopWordFilter stopWordFilter = new StopWordFilter(wfapp);
 
         // Configurar o DataStorage
-        DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter,3);
+        DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter, 3);
 
         // Configurar o KeyWordContextGenerator
         KeyWordContextGenerator keyWordContextGenerator = new KeyWordContextGenerator(wfapp, dataStorage);
@@ -111,7 +111,7 @@ class TesteIntegracao {
         StopWordFilter stopWordFilter = new StopWordFilter(wfapp, "src/test/java/stopWordsTeste.txt");
 
         // Configurar o DataStorage de acordo com o tamanho da janela de contexto
-        DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter,2);
+        DataStorage dataStorage = new DataStorage(wfapp, stopWordFilter, 2);
 
         // Configurar o KeyWordContextGenerator
         KeyWordContextGenerator keyWordContextGenerator = new KeyWordContextGenerator(wfapp, dataStorage);
@@ -169,18 +169,18 @@ class TesteIntegracao {
         System.setOut(System.out);
 
         List<String> expectedKWICNoStop = List.of(
-            "a brown cat (from: a brown cat sat)",
-            "brown cat sat (from: a brown cat sat)",
-            "brown fox the (from: the quick brown fox)",
-            "brown the cat (from: the cat is brown)",
-            "cat is brown (from: the cat is brown)",
-            "cat sat a (from: a brown cat sat)",
-            "fox the quick (from: the quick brown fox)",
-            "is brown the (from: the cat is brown)",
-            "quick brown fox (from: the quick brown fox)",
-            "sat a brown (from: a brown cat sat)",
-            "the cat is (from: the cat is brown)",
-            "the quick brown (from: the quick brown fox)"
+                "a brown cat (from: a brown cat sat)",
+                "brown cat sat (from: a brown cat sat)",
+                "brown fox the (from: the quick brown fox)",
+                "brown the cat (from: the cat is brown)",
+                "cat is brown (from: the cat is brown)",
+                "cat sat a (from: a brown cat sat)",
+                "fox the quick (from: the quick brown fox)",
+                "is brown the (from: the cat is brown)",
+                "quick brown fox (from: the quick brown fox)",
+                "sat a brown (from: a brown cat sat)",
+                "the cat is (from: the cat is brown)",
+                "the quick brown (from: the quick brown fox)"
         );
 
 

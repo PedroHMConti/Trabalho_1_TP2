@@ -17,7 +17,9 @@ class EscreveInputFileTest {
 
         // Instacia o objeto EscreveInputFile com o arquivo temporário
         EscreveInputFile escreveInputFile = new EscreveInputFile() {
-            { file = tempFile.toFile(); }
+            {
+                file = tempFile.toFile();
+            }
         };
 
         // Escreve a linha de teste no arquivo
@@ -53,7 +55,9 @@ class EscreveInputFileTest {
 
         // Instancia o objeto EscreveInputFile com o arquivo temporário
         EscreveInputFile escreveInputFile = new EscreveInputFile() {
-            { file = tempFile.toFile(); }
+            {
+                file = tempFile.toFile();
+            }
         };
 
         // Escreve uma linha vazia no arquivo
@@ -69,7 +73,9 @@ class EscreveInputFileTest {
     @Test
     void testEscreveArquivoMultiplasLinhas() throws Exception {
         Path tempFile = Files.createTempFile("Input", ".txt");
-        EscreveInputFile escreveInputFile = new EscreveInputFile() {{ file = tempFile.toFile(); }};
+        EscreveInputFile escreveInputFile = new EscreveInputFile() {{
+            file = tempFile.toFile();
+        }};
         escreveInputFile.escreveNoArquivoInput("linha1");
         escreveInputFile.escreveNoArquivoInput("linha2");
         String content = Files.readString(tempFile).trim();
