@@ -33,6 +33,20 @@ class DataStorageTest {
         Files.delete(tempFile);
     }
 
+    @Test
+    void testLoadThrowsRuntimeExceptionWhenFileNotFound() {
+        WordFrequencyFramework wf = new WordFrequencyFramework();
+        StopWordFilter filter = new StopWordFilter(wf);
+        DataStorage storage = new DataStorage(wf, filter, 1);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            storage.load("non_existent_file.txt");
+        });
+
+        assertNotNull(exception.getCause());
+        assertTrue(exception.getCause() instanceof java.io.FileNotFoundException);
+    }
+
 
     @Test
     void testProduceKWICContext() {

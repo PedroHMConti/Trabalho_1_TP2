@@ -1,6 +1,8 @@
 
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -27,6 +29,21 @@ class EscreveInputFileTest {
         assertEquals(testLine, content);
 
         Files.deleteIfExists(tempFile);
+    }
+
+    @Test
+    void testEscreveNoArquivoInputThrowsIOException() throws IOException {
+        File tempFile = File.createTempFile("readonly", ".txt");
+        tempFile.setReadOnly();
+
+        EscreveInputFile escreveInputFile = new EscreveInputFile() {{
+            file = tempFile;
+        }};
+
+        assertDoesNotThrow(() -> escreveInputFile.escreveNoArquivoInput("teste"));
+
+        tempFile.setWritable(true);
+        tempFile.delete();
     }
 
     @Test

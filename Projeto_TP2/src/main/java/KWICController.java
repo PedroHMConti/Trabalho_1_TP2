@@ -7,18 +7,27 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.function.Function;
 
 public class KWICController {
 
-    public static String getPath() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Selecionar Arquivo:");
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Arquivos de texto (*.txt)",
-                "*.txt");
-        fileChooser.getExtensionFilters().add(extensionFilter);
+    public interface FileChooserProvider {
+        File showOpenDialog();
+    }
 
-        File selectedFile = fileChooser.showOpenDialog(null);
+    public static String getPath(FileChooserProvider fileChooserProvider) {
+        File selectedFile = fileChooserProvider.showOpenDialog();
         return (selectedFile != null) ? selectedFile.getAbsolutePath() : "";
+    }
+
+    public static String getPath() {
+        return getPath(() -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Selecionar Arquivo:");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Arquivos de texto (*.txt)", "*.txt"));
+            return fileChooser.showOpenDialog(null);
+        });
     }
 
     public void setFields(File selectedFile) {
@@ -37,33 +46,37 @@ public class KWICController {
     }
 
     @FXML
-    private TextArea inputTextArea;
+    TextArea inputTextArea;
 
     @FXML
-    private TextArea stopWordsTextArea;
+    TextArea stopWordsTextArea;
 
     @FXML
-    private Label textFile;
+    Label textFile;
 
     @FXML
-    private TextField filePathField;
+    TextField filePathField;
 
     @FXML
-    private Button loadStopWordsButton;
+    Button loadStopWordsButton;
 
     @FXML
-    private TextField stopWordsPathField;
+    TextField stopWordsPathField;
 
     @FXML
-    private TextArea outputTextArea;
+    TextArea outputTextArea;
 
     @FXML
-    private TextField contextWindowField;
+    TextField contextWindowField;
 
     @FXML
     protected void onLoadFileButtonClick() {
         String path = getPath();
-        if (!path.isEmpty()) {
+        handleFileLoad(path);
+    }
+
+    void handleFileLoad(String path) {
+        if (path != null && !path.isEmpty()) {
             File file = new File(path);
             setFields(file);
             KWICApplication.textPath = path;
@@ -73,7 +86,11 @@ public class KWICController {
     @FXML
     protected void onLoadStopWordsClick() {
         String path = getPath();
-        if (!path.isEmpty()) {
+        handleStopWordsLoad(path);
+    }
+
+    void handleStopWordsLoad(String path) {
+        if (path != null && !path.isEmpty()) {
             File file = new File(path);
             stopWordsPathField.setText(path);
             KWICApplication.stopWordPath = path;
@@ -90,27 +107,31 @@ public class KWICController {
         }
     }
 
-    @FXML
-    public void initialize() {
+    public void loadInitialFiles(String inputPath, String stopWordsPath) {
         try {
-            File defaultInput = new File(FilePaths.INPUT_FILE);
-            if (defaultInput.exists()) {
-                setFields(defaultInput);
-                KWICApplication.textPath = defaultInput.getAbsolutePath();
+            File inputFile = new File(inputPath);
+            if (inputFile.exists()) {
+                setFields(inputFile);
+                KWICApplication.textPath = inputFile.getAbsolutePath();
             }
 
-            File defaultStopWords = new File(FilePaths.STOP_WORDS_FILE);
-            if (defaultStopWords.exists()) {
-                stopWordsPathField.setText(defaultStopWords.getAbsolutePath());
-                KWICApplication.stopWordPath = defaultStopWords.getAbsolutePath();
+            File stopFile = new File(stopWordsPath);
+            if (stopFile.exists()) {
+                stopWordsPathField.setText(stopFile.getAbsolutePath());
+                KWICApplication.stopWordPath = stopFile.getAbsolutePath();
 
-                String conteudo = new String(Files.readAllBytes(defaultStopWords.toPath()));
+                String conteudo = new String(Files.readAllBytes(stopFile.toPath()));
                 stopWordsTextArea.setText(conteudo);
             }
 
         } catch (Exception e) {
             inputTextArea.setText("Erro ao carregar arquivos padrão: " + e.getMessage());
         }
+    }
+
+    @FXML
+    public void initialize() {
+        loadInitialFiles(FilePaths.INPUT_FILE, FilePaths.STOP_WORDS_FILE);
     }
 
     @FXML
