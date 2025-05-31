@@ -74,19 +74,26 @@ class KWICControllerTest {
     }
 
     @Test
-    void testGetPathReturnsCorrectPathWhenFileSelected() {
-        KWICController.FileChooserProvider mockProvider = () -> new File("/fake/path.txt");
+    void testGetPathReturnsCorrectPathWhenFileSelected() throws IOException {
+        File tempFile = File.createTempFile("testfile", ".txt");
+        tempFile.deleteOnExit();
+
+        KWICController.FileChooserProvider mockProvider = () -> tempFile;
+
         String result = KWICController.getPath(mockProvider);
-        assertEquals("/fake/path.txt", result);
+
+        assertEquals(tempFile.getAbsolutePath(), new File(result).getAbsolutePath());
     }
 
     @Test
-    void testHandleFileLoadWithValidPath() {
+    void testHandleFileLoadWithValidPath() throws Exception {
         KWICController controller = new KWICController();
         controller.filePathField = new TextField();
         controller.inputTextArea = new TextArea();
 
-        String testPath = "/tmp/test.txt";
+        File testFile = File.createTempFile("test", ".txt");
+
+        String testPath = testFile.getAbsolutePath();
 
         controller.handleFileLoad(testPath);
 
